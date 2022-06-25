@@ -27,6 +27,6 @@
     "dotenv": "^8.2.0",
     "form-data": "^3.0.0",
     "kinto-http": "^5.1.1",
-    "node-fetch": "^2.6.1"
+    "node-fetch": "^2.6.7"
   }
 }
