@@ -5,7 +5,8 @@ require("dotenv").config();
 const environmentVariables = [
   "SERVER",
   "AUTHORIZATION",
-]
+  "RELATED_REALMS_LEGACY_FILE",
+];
 
 const AppConstants = {};
 

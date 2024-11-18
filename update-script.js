@@ -1,5 +1,6 @@
 const KintoClient = require("kinto-http").default;
 const btoa = require("btoa");
+const fs = require('fs/promises');
 const fetch = require("node-fetch");
 const AppConstants = require("./app-constants");
 
@@ -11,7 +12,7 @@ const AUTHORIZATION = AppConstants.AUTHORIZATION;
 /** @type {String} */
 const SERVER_ADDRESS = AppConstants.SERVER;
 const BUCKET = "main-workspace";
-const RELATED_REALMS_API_ENDPOINT = "https://api.github.com/repos/apple/password-manager-resources/contents/quirks/websites-with-shared-credential-backends.json";
+const RELATED_REALMS_LEGACY_FILE = AppConstants.RELATED_REALMS_LEGACY_FILE;
 const PASSWORD_RULES_API_ENDPOINT = "https://api.github.com/repos/apple/password-manager-resources/contents/quirks/password-rules.json";
 
 /**
@@ -175,7 +176,7 @@ const createAndUpdateRulesRecords = async (client, bucket) => {
  */
 const createAndUpdateRelatedRealmsRecords = async (client, bucket) => {
   let { data: relatedRealmsData } = await client.bucket(bucket).collection(RELATED_REALMS_COLLECTION_ID).listRecords();
-  let realmsGithubRecords = await getSourceRecords(RELATED_REALMS_API_ENDPOINT);
+  let realmsGithubRecords = JSON.parse(await fs.readFile(RELATED_REALMS_LEGACY_FILE, 'utf8'));
   let id = relatedRealmsData[0]?.id;
   // If there is no ID from Remote Settings, we need to create a new record in the related realms collection
   if (!id) {
